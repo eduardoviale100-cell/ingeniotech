@@ -1,0 +1,287 @@
+/* INGENIOTECH — capa de mejoras: tema claro/oscuro, barra inferior móvil,
+   animaciones, simetría y rendimiento. Se carga después de tema.css. */
+
+:root{--ease:cubic-bezier(.16,1,.3,1);--bnav-h:70px;--fg:#fff;--fg2:#d0d0d0;--hdr:rgba(3,3,3,.92);--sunk:#05050a;color-scheme:dark}
+:root[data-theme=light]{
+  color-scheme:light;
+  --negro:#f4f7fb;--navy:#f4f7fb;--navy-2:#e9eff7;--it-black:#f4f7fb;--it-card:#fff;
+  --it-line:rgba(7,20,38,.12);--borde:rgba(7,20,38,.14);--texto-sec:#41536b;
+  --neon:#0072b8;--neon-2:#005a94;--neon-rgb:0,114,184;
+  --fg:#0a1a2f;--fg2:#41536b;--hdr:rgba(255,255,255,.92);--sunk:#e6edf6}
+
+img{height:auto}
+.xmedia img,.fx-card__img img,.gitem img,.fx-frame .slide,.phero .photo img{height:100%}
+.fx-frame .slide{width:100%;object-fit:cover}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
+html.tt *{transition:background-color .35s,color .35s,border-color .35s,box-shadow .35s!important}
+
+/* ---------- Barra de progreso de lectura ---------- */
+.progress{position:fixed;inset:0 0 auto 0;height:3px;z-index:1200;transform-origin:0 50%;transform:scaleX(var(--p,0));
+  background:linear-gradient(90deg,var(--neon),var(--yellow));pointer-events:none}
+
+/* ---------- Botón de tema (superior) ---------- */
+.theme-toggle{flex:none;width:44px;height:44px;margin-left:14px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  background:rgba(var(--neon-rgb),.08);border:1px solid var(--neon);color:var(--neon);transition:transform .5s var(--ease),background .3s,box-shadow .3s}
+.theme-toggle:hover{background:rgba(var(--neon-rgb),.2);box-shadow:0 0 18px rgba(var(--neon-rgb),.5)}
+.theme-toggle:active{transform:scale(.9) rotate(20deg)}
+.theme-toggle svg{grid-area:1/1;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .6s var(--ease),opacity .3s}
+.theme-toggle .i-moon{opacity:0;transform:rotate(-90deg) scale(.4)}
+[data-theme=light] .theme-toggle .i-sun{opacity:0;transform:rotate(90deg) scale(.4)}
+[data-theme=light] .theme-toggle .i-moon{opacity:1;transform:none}
+.site-header{background:var(--hdr)}
+
+/* ---------- Barra de navegación inferior (celulares): 6 íconos en columnas iguales ---------- */
+.bnav{display:none}
+@media(max-width:980px){
+  :root{--bnav-h:78px}
+  .bnav{display:block;position:fixed;inset:auto 0 0 0;z-index:1100;padding:6px max(8px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+    background:var(--hdr);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--borde)}
+  .bnav::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--neon),var(--yellow),transparent);opacity:.6}
+  .bnav ul{list-style:none;display:grid;grid-template-columns:repeat(6,1fr);max-width:520px;margin:0 auto}
+  .bnav a{position:relative;display:flex;align-items:center;justify-content:center;height:62px;text-decoration:none;color:var(--fg2);-webkit-tap-highlight-color:transparent}
+  .bnav .ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;transition:transform .45s var(--ease),background .3s,box-shadow .3s,color .3s}
+  .bnav svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .bnav .t{position:absolute;left:50%;bottom:1px;transform:translate(-50%,6px);font-size:.64rem;font-weight:700;letter-spacing:.02em;white-space:nowrap;opacity:0;color:var(--neon);transition:opacity .3s,transform .45s var(--ease)}
+  .bnav a:active .ic{transform:scale(.86)}
+  .bnav a[aria-current=page] .ic{background:var(--neon);color:#000;transform:translateY(-9px);box-shadow:0 0 18px rgba(var(--neon-rgb),.65)}
+  .bnav a[aria-current=page] .t{opacity:1;transform:translate(-50%,0)}
+  .bnav a.c{color:var(--yellow)}
+  .bnav a.c .t{color:var(--yellow)}
+  .bnav a.c[aria-current=page] .ic{background:var(--yellow);box-shadow:0 0 18px rgba(255,195,0,.6)}
+  body{padding-bottom:calc(var(--bnav-h) + env(safe-area-inset-bottom))}
+  .social-float-container{bottom:calc(var(--bnav-h) + 14px + env(safe-area-inset-bottom))}
+  .toast{bottom:calc(var(--bnav-h) + 24px + env(safe-area-inset-bottom))}
+  [data-theme=light] .bnav a[aria-current=page] .ic{color:#fff}
+  [data-theme=light] .bnav a.c{color:#8a6500}
+  [data-theme=light] .bnav a.c .t{color:#8a6500}
+  [data-theme=light] .bnav a.c[aria-current=page] .ic{color:#000}
+}
+
+/* ---------- Tema claro: colores que estaban fijos en blanco/negro ---------- */
+[data-theme=light] :is(.b-title,.b-card h3,.cliente h3,.fx-card__body h3,.chips li,.why li,.steps li,.xtitle,.counter span,.brand h4,
+  .fx-hero .phrase h1,.dlg h3,.cform h2,.phero h1,.phero .txt,.wordmark,.logo,.site-footer,.nav-menu a){color:var(--fg)}
+[data-theme=light] .brand .wordmark b,[data-theme=light] .logo span{color:#b78500}
+[data-theme=light] :is(.fx-hero .phrase p,.cliente p.desc,.fx-card__body p,.footer-tag,.footer-copy,.footer-info a,.footer-nav a){color:var(--fg2)}
+[data-theme=light] .site-footer{background:var(--navy-2)}
+[data-theme=light] :is(.xmedia,.fx-card__img,.gitem,.fx-frame,#capgrid .xmedia,.dlg input[type=text],.dlg textarea,.cform .in){background:var(--sunk)}
+[data-theme=light] .cform .in,[data-theme=light] .dlg input,[data-theme=light] .dlg textarea{color:var(--fg)}
+[data-theme=light] dialog{background:var(--it-card);color:var(--fg2)}
+[data-theme=light] .phero,[data-theme=light] .brand{background:var(--negro)}
+[data-theme=light] .phero .photo::after{background:linear-gradient(90deg,transparent 55%,var(--negro))}
+[data-theme=light] .nav-menu a{background:rgba(7,20,38,.05);border-color:var(--borde);box-shadow:none}
+[data-theme=light] .nav-menu a[aria-current=page]{color:#fff;background:var(--neon)}
+[data-theme=light] .nav-menu .btn-nav{color:#7a5a00;border-color:var(--yellow)}
+[data-theme=light] .nav-menu .btn-nav[aria-current=page]{color:#000}
+[data-theme=light] .social-float-btn.subir{background:var(--it-card)}
+[data-theme=light] .b-btn.ghost,[data-theme=light] .btn-catalogo{color:var(--fg)}
+[data-theme=light] .b-btn.ghost:hover,[data-theme=light] .btn-catalogo:hover{color:#fff}
+[data-theme=light] .fx-frame::after{background:linear-gradient(180deg,transparent 60%,rgba(7,20,38,.35))}
+
+/* ---------- Simetría: rejillas parejas y tarjetas de igual altura ---------- */
+.fx-products,.clientes-grid{grid-template-columns:repeat(4,1fr);align-items:stretch}
+.fx-card,.cliente{height:100%}
+.why{display:flex;flex-wrap:wrap;justify-content:center}
+.why li{flex:1 1 210px;max-width:250px;text-align:center}
+.why li::before{margin-inline:auto}
+.b-block{margin-bottom:clamp(56px,9vw,90px)}
+.fx-section,.brand{padding-block:clamp(56px,8vw,90px)}
+.fx-section{content-visibility:auto;contain-intrinsic-size:auto 760px}
+@media(max-width:1100px){.fx-products,.clientes-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){
+  .fx-products,.clientes-grid{grid-template-columns:1fr;gap:18px}
+  .fx-card{max-width:440px;width:100%;margin-inline:auto}
+  .cliente{padding:28px 20px}
+  .ggrid{grid-template-columns:repeat(2,1fr)}
+  .fx-oferta{border-radius:24px}
+  .b-intro{font-size:1rem}
+  .ccard{padding:24px 18px}
+}
+@supports(height:100svh){.fx-hero{min-height:calc(100svh - 80px)}}
+
+/* ---------- Hero: secuencia de entrada y traza de señal ---------- */
+.fx-hero .trace{position:absolute;left:0;right:0;bottom:0;height:90px;opacity:.45;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='90' viewBox='0 0 360 90'%3E%3Cpath d='M0 55H110l10-8 12 8h30l8-34 14 62 10-28h26l10-6 10 6H360' fill='none' stroke='%2300bfff' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") repeat-x;
+  animation:traza 16s linear infinite;-webkit-mask:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent);mask:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent)}
+[data-theme=light] .fx-hero .trace{opacity:.3}
+@keyframes traza{to{background-position-x:-360px}}
+@keyframes sube{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes entra{from{opacity:0;transform:scale(.94) translateY(20px)}to{opacity:1;transform:none}}
+.fx-hero__text>*{animation:sube .9s var(--ease) both}
+.fx-hero__text>:nth-child(2){animation-delay:.1s}.fx-hero__text>:nth-child(3){animation-delay:.2s}.fx-hero__text>:nth-child(4){animation-delay:.3s}
+.fx-frame{animation:entra 1.1s var(--ease) .15s both}
+.fx-logo-chip{animation:sube 1s var(--ease) .6s both}
+
+/* ---------- Revelado al desplazar (lo activa mejoras.js) ---------- */
+.js [data-r]{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0ms)}
+.js [data-r].in{opacity:1;transform:none}
+
+/* ---------- Táctil: sin "saltos" de hover y con respuesta al toque ---------- */
+@media(hover:none){
+  .b-card:hover,.xcard:hover,.fx-card:hover,.cliente:hover,.why li:hover,.steps li:hover,.counter:hover{transform:none}
+  .xcard:hover .xmedia img,.fx-card:hover .fx-card__img img,.gitem:hover img{transform:none}
+}
+:is(.b-btn,.btn-whatsapp,.btn-catalogo,.btn-oferta,.wa,.fx-card__body a,.crow,.xhead,.gitem):active{transform:scale(.97)}
+.btn-whatsapp,.btn-catalogo,.b-btn,.wa{min-height:46px}
+
+@media(prefers-reduced-motion:reduce){
+  .fx-hero__text>*,.fx-frame,.fx-logo-chip,.fx-hero .trace{animation:none!important}
+  .js [data-r]{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+
+/* ---------- Ajustes finos ---------- */
+@media(min-width:981px){.nav-container{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}.theme-toggle{justify-self:end}}
+[data-theme=light] .fx-hero .dots button{background:rgba(7,20,38,.2)}
+[data-theme=light] .fx-hero .dots button.is-active{background:var(--neon)}
+
+/* ---------- Sistema: columnas parejas, anclas, pie abajo, accesibilidad ---------- */
+.two{align-items:stretch!important}
+.two>.b-card{height:100%}
+.two>div>.ccard-wrap{padding-bottom:0!important}
+html{scroll-padding-top:90px}
+body{min-height:100vh;display:flex;flex-direction:column}
+main{flex:1 0 auto}
+.site-footer{flex:none}
+.skip{position:fixed;left:50%;top:-80px;transform:translateX(-50%);z-index:3000;padding:10px 20px;border-radius:50px;background:var(--yellow);color:#000;font-weight:700;text-decoration:none;transition:top .3s var(--ease)}
+.skip:focus{top:12px}
+img{-webkit-user-drag:none}
+@media(max-width:980px){.site-header{padding-top:env(safe-area-inset-top)}html{scroll-padding-top:80px}}
+
+/* =====================================================================
+   v3 — Contraste en modo claro, hero con imágenes en celular, menú
+   ===================================================================== */
+:root{--ink-y:var(--yellow);--wa-d:#0b7a3e;--soft:cubic-bezier(.22,.61,.36,1)}
+:root[data-theme=light]{--ink-y:#8f6700}
+/* Islas que siguen oscuras en modo claro: llevan sus propios colores de texto */
+[data-theme=light] :is(.pbanner,.abanner,.ccard,.fx-oferta,.ph){--fg:#fff;--fg2:#dbe4f2;--ink-y:#ffc300;--neon:#00bfff;--neon-rgb:0,191,255;--texto-sec:#dbe4f2}
+/* Textos sobre superficies claras */
+[data-theme=light] :is(p,li){color:var(--fg2)}
+[data-theme=light] :is(.wordmark b,.logo span){color:var(--ink-y)!important}
+[data-theme=light] :is(.counter strong,.badge.y,.pbanner h2,.abanner h2){color:var(--ink-y)}
+[data-theme=light] .phero h1 em{color:var(--neon)}
+[data-theme=light] :is(.phero p.sub,.brand p.sub,.sub.tcenter){color:var(--fg)}
+[data-theme=light] .fx-pill{background:#0a5f99;color:#fff}
+/* Botones verdes de WhatsApp: verde profundo para que el texto blanco se lea (ambos temas) */
+.wa,.btn-whatsapp,.fx-card__body a,.fx-oferta .btn-oferta,.cform .wa-btn{background:var(--wa-d);color:#fff}
+.wa:hover,.btn-whatsapp:hover,.fx-card__body a:hover,.fx-oferta .btn-oferta:hover,.cform .wa-btn:hover{background:#0e9448}
+
+/* Header móvil: logo | tema | hamburguesa */
+@media(max-width:980px){
+  .nav-container{display:flex;align-items:center}
+  .logo{order:0}
+  .theme-toggle{order:1;margin-left:auto;position:relative;z-index:1200}
+  .menu-toggle{order:2;margin-left:10px;position:relative;z-index:1200;width:44px;height:44px;border-radius:50%;border:1px solid var(--borde);background:rgba(var(--neon-rgb),.06);
+    align-items:center;justify-content:center;flex-direction:column;gap:5px;transition:background .3s,transform .4s var(--ease)}
+  .menu-toggle span{width:20px;height:2px;border-radius:2px;margin:0}
+  .menu-toggle.is-active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .menu-toggle.is-active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .menu-toggle:active{transform:scale(.9)}
+  .nav-menu-wrapper{order:3;height:100dvh;padding-bottom:calc(var(--bnav-h) + env(safe-area-inset-bottom));transition:opacity .5s var(--soft),transform .6s var(--ease)}
+  .nav-menu a{transition:transform .5s var(--ease),opacity .5s var(--soft),background .3s;opacity:0;transform:translateY(16px)}
+  .nav-menu-wrapper.is-active .nav-menu a{opacity:1;transform:none}
+  .nav-menu-wrapper.is-active .nav-menu a:nth-child(2){transition-delay:.05s}.nav-menu-wrapper.is-active .nav-menu a:nth-child(3){transition-delay:.1s}
+  .nav-menu-wrapper.is-active .nav-menu a:nth-child(4){transition-delay:.15s}.nav-menu-wrapper.is-active .nav-menu a:nth-child(5){transition-delay:.2s}
+  .nav-menu-wrapper.is-active .nav-menu a:nth-child(6){transition-delay:.25s}
+  [data-theme=light] .nav-menu-wrapper{background:rgba(244,247,251,.98)}
+}
+
+/* Hero en celular y tablet: imagen primero, a todo el ancho, texto breve debajo */
+.stories{display:none}
+@media(max-width:900px){
+  .fx-hero{margin-top:70px;padding:0 0 30px;min-height:0;display:block}
+  .fx-hero .trace{display:none}
+  .fx-hero__inner{display:flex;flex-direction:column;align-items:stretch;gap:0;max-width:none}
+  .fx-hero__visual{order:-1;margin:0;width:100%;animation:none;display:block}
+  .fx-frame{width:100%;aspect-ratio:auto;height:clamp(300px,47svh,460px);border-radius:0 0 34px 34px;box-shadow:0 18px 40px -18px rgba(var(--neon-rgb),.5);animation:entra 1s var(--ease) both}
+  .fx-frame::after{background:linear-gradient(180deg,rgba(3,3,3,.35) 0,transparent 22%,transparent 58%,rgba(3,3,3,.55) 100%)}
+  .fx-frame .slide{transition:opacity 1.1s var(--soft),transform 7s linear}
+  .fx-logo-chip{display:none}
+  .stories{display:flex;gap:6px;position:absolute;top:14px;left:16px;right:16px;z-index:4}
+  .stories button{flex:1;height:22px;padding:0;border:0;background:none;position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .stories button::before,.stories button::after{content:"";position:absolute;left:0;right:0;top:9px;height:4px;border-radius:4px}
+  .stories button::before{background:rgba(255,255,255,.4);backdrop-filter:blur(4px)}
+  .stories button::after{background:#fff;transform:scaleX(0);transform-origin:left}
+  .stories button.is-done::after{transform:none}
+  .stories button.is-active::after{animation:story 6.5s linear forwards}
+  .fx-hero__text{position:relative;z-index:2;padding:0 6%;align-items:center;text-align:center}
+  .fx-kicker{margin:-19px 0 18px;box-shadow:0 8px 24px rgba(0,0,0,.35);background:var(--negro)}
+  .fx-hero .phrase h1{font-size:clamp(1.65rem,7.4vw,2.5rem);line-height:1.12}
+  .fx-hero .phrase p{font-size:1rem;margin-top:10px}
+  .fx-hero .phrase{transition:opacity .8s var(--soft),transform .9s var(--ease)}
+  .hero-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:440px;margin-top:22px}
+  .hero-buttons a{justify-content:center;text-align:center;padding:0 10px;font-size:.9rem;min-height:50px;display:inline-flex;align-items:center;width:100%}
+  .fx-controls{display:none}
+}
+@keyframes story{to{transform:scaleX(1)}}
+[data-theme=light] .fx-frame::after{background:linear-gradient(180deg,rgba(7,20,38,.3) 0,transparent 22%,transparent 62%,rgba(244,247,251,.9) 100%)}
+@media(prefers-reduced-motion:reduce){.stories button.is-active::after{animation:none;transform:scaleX(1)}}
+
+/* Botones flotantes: aparecen al bajar (no tapan el hero en celular) */
+@media(max-width:980px){
+  .social-float-container{transition:opacity .5s var(--soft),transform .6s var(--ease)}
+  .social-float-container:not(.on){opacity:0;pointer-events:none;transform:translateY(16px)}
+}
+
+/* =====================================================================
+   v4 — Encabezados de página con identidad propia (Capacitaciones,
+   Tienda, Asesorías): imagen primero, texto breve, botones iguales
+   ===================================================================== */
+.ph{--acc:#00bfff;--acc-rgb:0,191,255;position:relative;margin-top:70px;overflow:hidden;isolation:isolate;color:#fff;background:#050b16}
+.ph::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(80% 55% at 50% 0%,rgba(var(--acc-rgb),.30),transparent 70%),linear-gradient(180deg,#071426,#050b16)}
+.ph--tienda{--acc:#ffc300;--acc-rgb:255,195,0}
+.ph--cap::after,.ph--tienda::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000,transparent 75%);mask-image:linear-gradient(180deg,#000,transparent 75%)}
+.ph--cap::after{background:linear-gradient(rgba(0,191,255,.09) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(90deg,rgba(0,191,255,.09) 1px,transparent 1px) 0 0/44px 44px}
+.ph--tienda::after{background:radial-gradient(rgba(255,195,0,.22) 1.4px,transparent 1.7px) 0 0/22px 22px}
+.ph__media{position:relative;padding:26px 6% 0}
+.ph__body{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 6% 36px}
+.ph__kicker{display:inline-flex;align-items:center;gap:8px;margin:22px 0 14px;padding:8px 16px;border-radius:999px;border:1px solid rgba(var(--acc-rgb),.6);background:#06101f;color:var(--acc);
+  font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.ph h1{font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(2rem,9.4vw,3.2rem);line-height:1.05;letter-spacing:-.02em;color:#fff;text-transform:none}
+.ph h2{font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(1rem,4.2vw,1.25rem);line-height:1.3;color:var(--acc);margin:10px 0 12px;text-transform:none}
+.ph p{max-width:420px;margin:0 0 18px;color:#dbe4f2;font-size:1rem;line-height:1.55}
+.ph__chips{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:440px;margin:0 0 22px;padding:0}
+.ph__chips li{display:grid;place-items:center;min-height:38px;padding:6px 8px;border-radius:12px;border:1px solid rgba(var(--acc-rgb),.45);background:rgba(var(--acc-rgb),.1);
+  color:#fff;font-size:.78rem;font-weight:600;line-height:1.2;text-align:center}
+.ph__cta{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:440px}
+.ph__btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 12px;border-radius:50px;font-weight:700;font-size:.9rem;text-decoration:none;white-space:nowrap;
+  transition:transform .45s var(--ease),box-shadow .3s,background .3s}
+.ph__btn svg{width:18px;height:18px;fill:currentColor;flex:none}
+.ph__btn--main{background:var(--acc);color:#04121f;box-shadow:0 0 22px rgba(var(--acc-rgb),.4)}
+.ph__btn--wa{background:var(--wa-d);color:#fff}
+.ph__btn:hover{transform:translateY(-3px)}.ph__btn--wa:hover{background:#0e9448}.ph__btn:active{transform:scale(.96)}
+/* Capacitaciones: abanico simétrico de afiches */
+.fan{position:relative;height:clamp(160px,50vw,250px);max-width:520px;margin:0 auto}
+.fan img{position:absolute;top:50%;left:50%;width:70%;height:auto;border-radius:12px;border:1px solid rgba(255,255,255,.16);box-shadow:0 16px 34px rgba(0,0,0,.55)}
+.fan__c{transform:translate(-50%,-50%);width:76%!important;z-index:3}
+.fan__l{transform:translate(-50%,-50%) translateX(-30%) rotate(-7deg) scale(.88);z-index:1;filter:brightness(.8);animation:bobL 6s ease-in-out infinite}
+.fan__r{transform:translate(-50%,-50%) translateX(30%) rotate(7deg) scale(.88);z-index:2;filter:brightness(.8);animation:bobR 6s ease-in-out infinite}
+@keyframes bobL{50%{transform:translate(-50%,-50%) translateX(-30%) translateY(-6px) rotate(-7deg) scale(.88)}}
+@keyframes bobR{50%{transform:translate(-50%,-50%) translateX(30%) translateY(6px) rotate(7deg) scale(.88)}}
+/* Tienda: mosaico de productos */
+.mos{display:grid;grid-template-columns:1.3fr 1fr;grid-template-rows:1fr 1fr;gap:10px;height:clamp(210px,58vw,300px);max-width:520px;margin:0 auto}
+.mos img{width:100%;height:100%;object-fit:cover;border-radius:16px;border:1px solid rgba(255,255,255,.16);box-shadow:0 14px 30px rgba(0,0,0,.45)}
+.mos img:first-child{grid-row:1/3}
+/* Asesorías: foto a todo el ancho, técnico bien encuadrado */
+.ph--ase .ph__media{padding:0}
+.ph--ase .ase__img{display:block;width:100%;height:clamp(230px,33svh,340px);object-fit:cover;border-radius:0 0 34px 34px;box-shadow:0 18px 40px -18px rgba(var(--acc-rgb),.55)}
+.ph--ase .ph__media::after{content:"";position:absolute;inset:auto 0 0 0;height:32%;border-radius:0 0 34px 34px;background:linear-gradient(transparent,rgba(5,11,22,.75));pointer-events:none}
+.ph--ase .ph__kicker{margin:-17px 0 14px}
+/* Entrada suave */
+.ph__media{animation:entra 1s var(--ease) both}
+.ph__body>*{animation:sube .8s var(--ease) both}
+.ph__body>:nth-child(2){animation-delay:.08s}.ph__body>:nth-child(3){animation-delay:.14s}.ph__body>:nth-child(4){animation-delay:.2s}.ph__body>:nth-child(5){animation-delay:.26s}.ph__body>:nth-child(6){animation-delay:.32s}
+@media(max-width:980px){.ph{margin-top:70px}}
+@media(min-width:981px){.ph{margin-top:80px}}
+@media(min-width:901px){
+  .ph{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:56px;padding:70px 8%;min-height:520px}
+  .ph__media{order:2;padding:0}
+  .ph__body{order:1;align-items:flex-start;text-align:left;padding:0}
+  .ph__kicker,.ph--ase .ph__kicker{margin:0 0 16px}
+  .ph__chips{max-width:480px}.ph__cta{max-width:420px}
+  .ph h1{font-size:clamp(2.6rem,4.4vw,3.8rem)}
+  .ph--ase .ase__img{height:420px;border-radius:28px}.ph--ase .ph__media::after{display:none}
+  .fan{height:300px}
+}
+@media(prefers-reduced-motion:reduce){.fan__l,.fan__r,.ph__media,.ph__body>*{animation:none!important}}
+
+.ph :is(h1,h2,p){text-wrap:balance}

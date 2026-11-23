@@ -1,0 +1,359 @@
+/* ==========================================================
+   INGENIOTECH — tema visual: fondo oscuro, brillos neón, menú en
+   píldoras, tarjetas con hover neón, banner de oferta, botones
+   flotantes y pie con línea degradada.
+
+   Para cambiar el color neón de toda la web edita
+   --neon, --neon-2 y --neon-rgb aquí abajo.
+   ========================================================== */
+
+:root{
+  --negro:#030303;
+  --navy:#030303;
+  --navy-2:#07070d;
+  --it-black:#030303;
+  --it-card:#0b0b12;
+  --it-line:rgba(255,255,255,.12);
+  --borde:rgba(255,255,255,.15);
+  --texto-sec:#d0d0d0;
+
+  --neon:#00bfff;          /* color neón principal (azul del logo) */
+  --neon-2:#0a7bd6;        /* tono más profundo para degradados */
+  --neon-rgb:0,191,255;
+  --blue:var(--neon);
+  --yellow:#ffc300;        /* acento secundario (amarillo del logo) */
+  --it-yellow:#ffc300;
+  --it-blue:var(--neon);
+  --wa:#25d366;
+}
+
+/* ---------- Base ---------- */
+html{overflow-x:hidden}
+body{font-family:'Poppins',sans-serif;background:var(--negro);color:var(--texto-sec);line-height:1.65}
+.display{font-family:'Poppins',sans-serif;text-transform:none;letter-spacing:-.01em}
+.logo,.wordmark,.site-footer .wordmark,.logo i{font-family:'Rajdhani',sans-serif}   /* el logotipo conserva su tipografía */
+::selection{background:rgba(var(--neon-rgb),.35);color:#fff}
+
+/* ---------- Navbar (píldoras + se oculta al bajar) ---------- */
+.site-header{
+  background:rgba(3,3,3,.95);
+  border-bottom:1px solid var(--borde);
+  backdrop-filter:blur(10px);
+  transition:transform .4s ease;
+}
+.site-header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--neon),var(--yellow),transparent);opacity:.55;pointer-events:none}
+.site-header.ocultar{transform:translateY(-100%)}
+.nav-container{width:92%;max-width:1280px}
+.nav-menu{gap:12px}
+.nav-menu a{
+  padding:10px 20px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  color:#fff;font-weight:600;font-size:.9rem;
+  backdrop-filter:blur(10px);
+  box-shadow:0 4px 15px rgba(0,0,0,.25);
+  transition:all .3s ease;
+}
+.nav-menu a:hover{
+  transform:translateY(-4px);
+  color:#fff;
+  background:rgba(var(--neon-rgb),.18);
+  border-color:var(--neon);
+  box-shadow:0 0 20px rgba(var(--neon-rgb),.35),0 8px 25px rgba(0,0,0,.35);
+}
+.nav-menu a[aria-current="page"]{
+  color:#000;background:var(--neon);border-color:var(--neon);
+  box-shadow:0 0 18px rgba(var(--neon-rgb),.55);
+}
+.nav-menu .btn-nav{margin-left:6px;border:1px solid var(--yellow);color:var(--yellow);background:rgba(255,195,0,.06)}
+.nav-menu .btn-nav:hover{background:rgba(255,195,0,.18);border-color:var(--yellow);color:#fff;box-shadow:0 0 20px rgba(255,195,0,.4),0 8px 25px rgba(0,0,0,.35)}
+.nav-menu .btn-nav[aria-current="page"]{background:var(--yellow);color:#000;border-color:var(--yellow);box-shadow:0 0 18px rgba(255,195,0,.55)}
+.menu-toggle span{background:var(--neon)}
+
+/* El menú de píldoras no cabe en tablets: usa el menú móvil hasta 980px */
+@media(max-width:980px){
+  .site-header{height:70px}
+  .menu-toggle{display:flex}
+  .menu-toggle.is-active span:nth-child(1){transform:translateY(9px) rotate(45deg);background:var(--neon)}
+  .menu-toggle.is-active span:nth-child(2){opacity:0}
+  .menu-toggle.is-active span:nth-child(3){transform:translateY(-9px) rotate(-45deg);background:var(--neon)}
+  .nav-menu-wrapper{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(3,3,3,.98);backdrop-filter:blur(15px);
+    display:flex;justify-content:center;align-items:center;z-index:1050;opacity:0;pointer-events:none;transform:translateY(-100%);transition:var(--smooth)}
+  .nav-menu-wrapper.is-active{opacity:1;pointer-events:auto;transform:none}
+  .nav-menu{flex-direction:column;width:80%;max-width:420px;gap:14px;text-align:center}
+  .nav-menu a{font-size:1.15rem;padding:14px;width:100%}
+  .nav-menu .btn-nav{margin:6px 0 0}
+  .pbanner,.abanner,.phero{margin-top:70px}
+}
+
+/* ---------- Botones: píldoras ---------- */
+.btn,.b-btn,.wa,.btn-whatsapp,.btn-catalogo,.btn-oferta{border-radius:50px}
+.b-btn{
+  padding:13px 30px;font-weight:700;letter-spacing:.04em;text-transform:none;font-size:.95rem;
+  background:var(--yellow);color:#000;box-shadow:0 0 18px rgba(255,195,0,.25);
+}
+.b-btn:hover{background:#ffd54a;transform:translateY(-3px) scale(1.04);box-shadow:0 0 28px rgba(255,195,0,.55)}
+.b-btn.ghost{background:transparent;color:#fff;border:2px solid var(--neon);box-shadow:none}
+.b-btn.ghost:hover{background:var(--neon);color:#000;box-shadow:0 0 18px rgba(var(--neon-rgb),.7)}
+.wa{background:var(--wa);border-radius:50px;box-shadow:0 0 20px rgba(37,211,102,.35);font-weight:700}
+.wa:hover{background:#1ebe5d;transform:translateY(-3px) scale(1.03);box-shadow:0 0 30px rgba(37,211,102,.6)}
+
+.btn-whatsapp,.btn-catalogo{
+  display:inline-flex;align-items:center;gap:8px;padding:13px 28px;text-decoration:none;
+  font-weight:600;font-size:.98rem;color:#fff;transition:.3s;
+}
+.btn-whatsapp{background:var(--wa)}
+.btn-whatsapp svg{width:20px;height:20px;fill:currentColor}
+.btn-whatsapp:hover{background:#128c7e;transform:scale(1.05)}
+.btn-catalogo{border:2px solid var(--neon)}
+.btn-catalogo:hover{background:var(--neon);color:#000;box-shadow:0 0 15px var(--neon)}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap;margin-top:30px}
+
+/* ---------- Títulos de sección centrados con línea de pulso ---------- */
+.b-title{text-align:center;font-weight:800;letter-spacing:-.01em;font-size:clamp(1.8rem,4vw,2.9rem)}
+.b-title span{color:var(--neon)}
+.brand .b-intro,.b-intro{margin-inline:auto;text-align:center;color:var(--texto-sec)}
+.rule{margin:18px auto 40px;max-width:340px}
+.rule::before,.rule::after{height:2px;background:linear-gradient(90deg,transparent,var(--neon))}
+.rule::after{background:linear-gradient(90deg,var(--neon),transparent)}
+.rule svg{stroke:var(--yellow);filter:drop-shadow(0 0 6px rgba(255,195,0,.7))}
+.tcenter .rule{margin-inline:auto}
+.brand{background:var(--negro)}
+.brand::before{background:none}
+.brand::after{content:"";position:absolute;left:50%;top:0;width:min(900px,90%);height:340px;transform:translateX(-50%);
+  background:radial-gradient(ellipse at top,rgba(var(--neon-rgb),.10),transparent 70%);pointer-events:none}
+.brand .container{z-index:1}
+.brand.alt{background:var(--navy-2)}
+
+/* ---------- Tarjetas con hover neón ---------- */
+.b-card,.xcard,.why li,.chips li,.steps li,.counter{
+  background:var(--it-card);border:1px solid rgba(255,255,255,.10);border-radius:20px;
+}
+.b-card{border-top:1px solid rgba(255,255,255,.10);padding:30px}
+.b-card::before{content:"";display:block;width:46px;height:4px;border-radius:4px;margin-bottom:18px;
+  background:linear-gradient(90deg,var(--neon),var(--yellow))}
+.b-card:hover,.xcard:hover,.xcard.open,.why li:hover,.steps li:hover,.counter:hover{
+  border-color:var(--neon);transform:translateY(-10px);
+  box-shadow:0 0 30px rgba(var(--neon-rgb),.45),0 0 60px rgba(var(--neon-rgb),.25);
+}
+.xcard.open{transform:none}
+.xcard:hover .xmedia img{transform:scale(1.06)}
+.b-card h3{font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
+.b-card h3 span{color:var(--neon)}
+.ico{border-radius:12px;background:rgba(var(--neon-rgb),.14);color:var(--neon);font-family:'Poppins',sans-serif;font-weight:800;box-shadow:0 0 14px rgba(var(--neon-rgb),.25)}
+.badge{border-color:var(--neon);color:var(--neon)}
+.badge.y{border-color:var(--yellow);color:var(--yellow)}
+.chips li{border-radius:12px;border-left:4px solid var(--neon)}
+.chips li:hover{border-color:var(--neon);box-shadow:0 0 18px rgba(var(--neon-rgb),.35)}
+.why li::before{background:linear-gradient(135deg,var(--neon),var(--yellow));box-shadow:0 0 14px rgba(var(--neon-rgb),.5)}
+.counter{border-radius:20px}
+.counter:hover{transform:translateY(-8px) scale(1.03)}
+.counter strong{font-family:'Poppins',sans-serif;font-weight:800;color:var(--neon);text-shadow:0 0 18px rgba(var(--neon-rgb),.6)}
+
+/* Tarjetas desplegables (capacitaciones, asesorías, perfil) */
+.xmedia{background:#05050a}
+.xtitle{border-top:1px solid rgba(255,255,255,.08);font-family:'Poppins',sans-serif;text-transform:none;font-size:1rem;font-weight:700;line-height:1.35;letter-spacing:0}
+.xplus{background:linear-gradient(135deg,var(--neon),var(--neon-2));color:#000;box-shadow:0 0 14px rgba(var(--neon-rgb),.5)}
+.xcard.open .xplus{background:var(--yellow)}
+#capgrid .xtitle{min-height:5.6rem}
+#capgrid .xmedia{background:#05050a}
+.brand h4{font-family:'Poppins',sans-serif;text-transform:none;letter-spacing:0;font-weight:700}
+.brand h4 span{color:var(--neon)}
+.brand .sub{color:var(--neon);font-weight:600}
+.brand ul.list li::before{background:var(--neon);box-shadow:0 0 8px rgba(var(--neon-rgb),.8)}
+
+/* ---------- Banners internos estilo "oferta" ---------- */
+.pbanner{
+  background:linear-gradient(135deg,#02131f,#04304f 55%,#0a5a8f);
+  border-bottom:1px solid rgba(var(--neon-rgb),.35);
+  box-shadow:0 0 40px rgba(var(--neon-rgb),.18),0 0 80px rgba(var(--neon-rgb),.10);
+}
+.pbanner::before{background:radial-gradient(circle,rgba(255,255,255,.14),transparent 70%) no-repeat;
+  width:520px;height:520px;top:-260px;right:-140px;left:auto;bottom:auto;inset:auto;position:absolute}
+.pbanner h1{font-family:'Poppins',sans-serif;text-transform:none;font-weight:800;letter-spacing:-.02em;font-size:clamp(2rem,5vw,3.4rem)}
+.pbanner h2{font-family:'Poppins',sans-serif;color:var(--yellow);text-transform:none;font-weight:600}
+.abanner h1{font-family:'Poppins',sans-serif;text-transform:none;font-weight:800;letter-spacing:-.02em;font-size:clamp(2rem,5vw,3.4rem)}
+.abanner h2{font-family:'Poppins',sans-serif;font-weight:600}
+.abanner::before{background:linear-gradient(90deg,rgba(3,3,3,.94) 25%,rgba(3,3,3,.45))}
+.abanner{border-bottom:1px solid rgba(var(--neon-rgb),.35);box-shadow:0 0 40px rgba(var(--neon-rgb),.15)}
+.phero{background:#030303}
+.phero .photo::after{background:linear-gradient(90deg,transparent 55%,#030303)}
+.phero h1{font-family:'Poppins',sans-serif;text-transform:none;font-weight:800;letter-spacing:-.02em}
+.phero h1 em{color:var(--neon)}
+.phero .photo img{border-radius:0 0 40px 0}
+@media(max-width:768px){.phero .photo::after{background:linear-gradient(transparent 55%,#030303)}}
+.marquee{background:linear-gradient(90deg,var(--yellow),#ffd54a,var(--yellow));border-block:1px solid rgba(255,255,255,.2)}
+.marquee div{font-family:'Poppins',sans-serif;font-weight:700;letter-spacing:.08em;font-size:1rem}
+.marquee span::after{color:#030303}
+
+/* ---------- HERO de inicio (texto + imagen flotante) ---------- */
+.fx-hero{
+  position:relative;margin-top:80px;min-height:calc(100vh - 80px);display:flex;align-items:center;
+  padding:40px 8%;background:var(--negro);overflow:hidden;
+}
+.fx-hero::before{content:"";position:absolute;width:640px;height:640px;right:-180px;top:-120px;
+  background:radial-gradient(circle,rgba(var(--neon-rgb),.18),transparent 65%);pointer-events:none}
+.fx-hero::after{content:"";position:absolute;width:520px;height:520px;left:-200px;bottom:-220px;
+  background:radial-gradient(circle,rgba(255,195,0,.10),transparent 65%);pointer-events:none}
+.fx-hero__inner{position:relative;z-index:1;width:100%;max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
+.fx-hero__text{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.fx-phrases{display:grid;width:100%}
+.fx-hero .phrase{grid-area:1/1;opacity:0;transform:translateY(18px);transition:all .9s ease;pointer-events:none;text-align:left}
+.fx-hero .phrase.is-active{opacity:1;transform:none;pointer-events:auto}
+.fx-hero .phrase h1{font-family:'Poppins',sans-serif;font-weight:800;text-transform:none;letter-spacing:-.02em;
+  font-size:clamp(2.2rem,4.6vw,3.5rem);line-height:1.12;text-shadow:none;margin-bottom:18px;color:#fff}
+.fx-hero .phrase h1 em{font-style:normal;color:var(--neon);text-shadow:0 0 28px rgba(var(--neon-rgb),.55)}
+.fx-hero .phrase p{margin:0;max-width:520px;font-size:1.1rem;letter-spacing:0;text-transform:none;color:#ccc}
+.fx-hero .phrase p::before{display:none}
+.fx-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:50px;margin-bottom:22px;
+  border:1px solid rgba(var(--neon-rgb),.45);background:rgba(var(--neon-rgb),.08);color:var(--neon);
+  font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.fx-kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--yellow);box-shadow:0 0 10px var(--yellow);animation:pulso 1.6s ease-in-out infinite}
+@keyframes pulso{50%{opacity:.35;transform:scale(.7)}}
+.fx-controls{display:flex;align-items:center;gap:14px;margin-top:34px}
+.fx-hero .c-btn{position:static;width:40px;height:40px;border-radius:50%;font-size:1rem;display:grid;place-items:center;
+  border:1px solid var(--neon);color:var(--neon);background:rgba(var(--neon-rgb),.06)}
+.fx-hero .c-btn:hover{background:var(--neon);color:#000;box-shadow:0 0 16px rgba(var(--neon-rgb),.7)}
+.fx-hero .dots{position:static;transform:none;display:flex;gap:8px}
+.fx-hero .dots button{width:26px;height:5px;background:rgba(255,255,255,.25)}
+.fx-hero .dots button.is-active{width:46px;background:var(--neon);box-shadow:0 0 10px rgba(var(--neon-rgb),.8)}
+
+.fx-hero__visual{position:relative;display:flex;justify-content:center;animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.fx-frame{position:relative;width:100%;aspect-ratio:4/3.2;border-radius:28px;overflow:hidden;
+  border:1px solid rgba(var(--neon-rgb),.45);
+  box-shadow:0 0 30px rgba(var(--neon-rgb),.35),0 0 80px rgba(var(--neon-rgb),.18);background:#05050a}
+.fx-frame .slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.06);transition:opacity 1.2s ease}
+.fx-frame .slide.is-active{opacity:1;transform:scale(1);transition:opacity 1.2s ease,transform 7s linear}
+.fx-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(3,3,3,.75));pointer-events:none}
+.fx-logo-chip{position:absolute;z-index:2;left:-22px;bottom:-26px;width:min(62%,300px);padding:4px 8px;border-radius:18px;
+  background:#030303;border:1px solid var(--borde);box-shadow:0 10px 40px rgba(0,0,0,.6),0 0 24px rgba(var(--neon-rgb),.25)}
+.fx-logo-chip img{width:100%;height:auto;border-radius:12px}
+
+/* ---------- Capacitaciones destacadas (tarjetas tipo producto) ---------- */
+.fx-section{padding:90px 0;position:relative;background:var(--negro)}
+.fx-section .container{position:relative;z-index:1}
+.fx-products{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:10px}
+.fx-card{display:flex;flex-direction:column;background:var(--it-card);border:1px solid var(--borde);border-radius:18px;overflow:hidden;transition:all .3s ease}
+.fx-card:hover{border-color:var(--neon);transform:translateY(-10px);box-shadow:0 0 30px rgba(var(--neon-rgb),.45),0 0 60px rgba(var(--neon-rgb),.22)}
+.fx-card__img{aspect-ratio:16/9;background:#05050a;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.fx-card__img img{width:100%;height:100%;object-fit:contain;transition:transform .5s ease}
+.fx-card:hover .fx-card__img img{transform:scale(1.07)}
+.fx-card__body{padding:18px 18px 20px;display:flex;flex-direction:column;flex:1}
+.fx-card__body h3{color:#fff;font-size:1.02rem;font-weight:700;line-height:1.3;margin-bottom:6px}
+.fx-pill{align-self:flex-start;margin:6px 0 12px;padding:6px 14px;border-radius:12px;font-size:.78rem;font-weight:700;letter-spacing:.04em;color:#000;
+  background:linear-gradient(135deg,var(--neon),var(--yellow));box-shadow:0 0 15px rgba(var(--neon-rgb),.4)}
+.fx-card__body p{font-size:.88rem;line-height:1.5;color:#c4c4c4;margin-bottom:16px;flex:1}
+.fx-card__body a{align-self:flex-start;display:inline-block;padding:10px 24px;border-radius:50px;background:var(--wa);color:#fff;font-weight:700;font-size:.9rem;
+  text-decoration:none;box-shadow:0 0 18px rgba(37,211,102,.35);transition:all .3s ease}
+.fx-card__body a:hover{background:#1ebe5d;transform:translateY(-3px) scale(1.05);box-shadow:0 0 28px rgba(37,211,102,.6)}
+.fx-more{text-align:center;margin-top:40px}
+
+/* ---------- Banner de oferta ---------- */
+.fx-oferta{position:relative;margin:30px 8% 90px;padding:60px 40px;text-align:center;border-radius:30px;overflow:hidden;
+  background:linear-gradient(135deg,#02131f,#04304f,#0a5a8f);border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 0 40px rgba(var(--neon-rgb),.25),0 0 80px rgba(var(--neon-rgb),.12)}
+.fx-oferta::before{content:"";position:absolute;width:500px;height:500px;top:-250px;right:-150px;
+  background:radial-gradient(circle,rgba(255,255,255,.15),transparent 70%);pointer-events:none}
+.fx-oferta h2{position:relative;font-size:clamp(1.8rem,4.5vw,3rem);font-weight:800;text-transform:uppercase;margin-bottom:15px;color:#fff;letter-spacing:-.01em}
+.fx-oferta p{position:relative;max-width:700px;margin:0 auto 24px;font-size:1.12rem;color:#e4e4e4}
+.fx-oferta .fx-pill{position:relative;align-self:auto;display:inline-block;font-size:1.15rem;padding:10px 24px;border-radius:15px;margin:0 0 24px;
+  color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);box-shadow:none}
+.fx-oferta .btn-oferta{position:relative;display:inline-block;padding:15px 36px;background:var(--wa);color:#fff;text-decoration:none;font-weight:700;
+  box-shadow:0 0 20px rgba(37,211,102,.4);transition:all .3s ease}
+.fx-oferta .btn-oferta:hover{background:#1ebe5d;transform:translateY(-3px) scale(1.05);box-shadow:0 0 30px rgba(37,211,102,.6)}
+
+/* ---------- Servicios: tarjetas grandes con foto circular (como "Clientes") ---------- */
+.clientes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:28px;margin-top:10px}
+.cliente{text-align:center;padding:36px 26px;background:var(--it-card);border-radius:30px;border:1px solid rgba(255,255,255,.1);transition:all .4s ease}
+.cliente:hover{border-color:var(--neon);transform:translateY(-15px);box-shadow:0 0 30px rgba(var(--neon-rgb),.5),0 0 60px rgba(var(--neon-rgb),.3)}
+.cliente img{width:150px;height:150px;margin:0 auto 22px;object-fit:cover;border-radius:50%;border:3px solid var(--neon);transition:.3s;box-shadow:0 0 18px rgba(var(--neon-rgb),.35)}
+.cliente:hover img{border-color:var(--yellow);box-shadow:0 0 26px rgba(255,195,0,.5)}
+.cliente h3{font-size:1.3rem;color:#fff;margin-bottom:8px;font-weight:700}
+.cliente .acento{font-size:.98rem;color:var(--neon);font-weight:600;margin-bottom:12px}
+.cliente p.desc{font-size:.9rem;color:#bdbdbd;line-height:1.55}
+
+/* ---------- Tarjeta de contacto ---------- */
+.ccard{border-radius:28px;background:linear-gradient(160deg,#0d0d16,#050508);box-shadow:0 0 40px rgba(var(--neon-rgb),.12)}
+.ccard h3{font-family:'Poppins',sans-serif;text-transform:none;font-weight:800}
+.crow{border-radius:16px}
+.crow:hover,.crow:focus-visible{border-color:var(--neon);background:rgba(var(--neon-rgb),.10);box-shadow:0 0 18px rgba(var(--neon-rgb),.25)}
+.crow .ci{border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--yellow))}
+.crow .copy{border-radius:50px}
+
+/* ---------- Formularios / diálogos ---------- */
+dialog{background:#0b0b12;border:1px solid var(--neon);border-radius:22px;box-shadow:0 0 40px rgba(var(--neon-rgb),.3),0 30px 80px rgba(0,0,0,.7)}
+.dlg h3{font-family:'Poppins',sans-serif;text-transform:none;font-weight:800;letter-spacing:-.01em}
+.dclose{border-color:var(--neon);color:var(--neon)}
+.dclose:hover{background:var(--neon);color:#000}
+.dlg input[type=text],.dlg textarea,.cform .in{background:#05050a}
+.dlg input:focus,.dlg textarea:focus,.cform .in:focus{border-color:var(--neon);box-shadow:0 0 14px rgba(var(--neon-rgb),.3)}
+#pmodal .dlg img{background:#05050a}
+.cform{border-radius:28px;background:var(--it-card);box-shadow:0 0 40px rgba(var(--neon-rgb),.12)}
+.cform figure{background:#05050a}
+.cform figure img{border-color:var(--neon);box-shadow:0 0 22px rgba(var(--neon-rgb),.4)}
+.cform h2{font-family:'Poppins',sans-serif;text-transform:none;font-weight:800}
+.cform .wa-btn{border-radius:50px;box-shadow:0 0 20px rgba(37,211,102,.35)}
+.social a{border-color:var(--neon);border-radius:14px}
+.social a:hover{background:var(--neon);border-color:var(--neon);box-shadow:0 0 16px rgba(var(--neon-rgb),.6)}
+.gitem{border-radius:16px;border-color:rgba(255,255,255,.12);background:#05050a}
+.gitem::after{border-radius:16px}
+.gitem:hover{box-shadow:0 0 24px rgba(var(--neon-rgb),.5)}
+.gitem::after{border-color:var(--neon)}
+.toast{background:var(--neon);color:#000}
+
+/* ---------- Botones flotantes (WhatsApp + subir) ---------- */
+.social-float-container{position:fixed;right:26px;bottom:26px;display:flex;flex-direction:column;gap:14px;z-index:1000}
+.social-float-btn{width:58px;height:58px;border-radius:50%;display:flex;justify-content:center;align-items:center;color:#fff;text-decoration:none;
+  border:0;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+.social-float-btn svg{width:28px;height:28px;fill:currentColor}
+.social-float-btn:hover{transform:scale(1.15)}
+.social-float-btn.whatsapp{background:var(--wa);box-shadow:0 0 0 0 rgba(37,211,102,.6);animation:onda 2.4s infinite}
+.social-float-btn.subir{width:46px;height:46px;align-self:center;background:#0b0b12;border:1px solid var(--neon);color:var(--neon);
+  opacity:0;pointer-events:none;transform:translateY(10px)}
+.social-float-btn.subir svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.social-float-btn.subir.show{opacity:1;pointer-events:auto;transform:none}
+.social-float-btn.subir:hover{background:var(--neon);color:#000;box-shadow:0 0 18px rgba(var(--neon-rgb),.7)}
+@keyframes onda{0%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}70%{box-shadow:0 0 0 18px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+
+/* ---------- Pie de página con línea degradada ---------- */
+.site-footer{background:#030303;border-top:1px solid rgba(255,255,255,.05);padding:50px 0 30px;color:#fff;text-align:center}
+.footer-line{width:60%;height:1px;margin:0 auto 40px;background:linear-gradient(90deg,transparent,var(--neon),var(--yellow),transparent)}
+.site-footer .wordmark{font-size:2rem;display:block;margin-bottom:6px}
+.footer-tag{color:#bdbdbd;margin:0}
+.footer-info{display:flex;flex-direction:column;align-items:center;gap:12px;margin:26px 0 30px}
+.footer-info a{display:inline-flex;align-items:center;gap:10px;font-size:1rem;color:#aaa;text-decoration:none;transition:.3s}
+.footer-info a:hover{color:#fff}
+.footer-info svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--neon);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.footer-info a:hover svg{filter:drop-shadow(0 0 6px var(--neon))}
+.footer-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;margin-bottom:26px}
+.footer-nav a{color:#cfcfcf;text-decoration:none;font-size:.92rem;font-weight:500;transition:.3s}
+.footer-nav a:hover{color:var(--neon)}
+.footer-copy{font-size:.85rem;color:#7d7d7d;margin-top:4px}
+
+/* ---------- Responsive ---------- */
+@media(max-width:900px){
+  .fx-hero{min-height:auto;padding:50px 6% 70px}
+  .fx-hero__inner{grid-template-columns:1fr;gap:56px}
+  .fx-hero__text{align-items:center;text-align:center}
+  .fx-hero .phrase{text-align:center}
+  .fx-hero .phrase p{margin-inline:auto}
+  .hero-buttons,.fx-controls{justify-content:center}
+  .fx-logo-chip{left:50%;transform:translateX(-50%);bottom:-30px}
+  .fx-hero__visual{margin-bottom:30px}
+}
+@media(max-width:768px){
+  .fx-oferta{margin:20px 5% 70px;padding:44px 22px}
+  .fx-section{padding:64px 0}
+  .social-float-container{right:16px;bottom:16px}
+  .social-float-btn{width:52px;height:52px}
+  .hero-buttons{flex-direction:column;align-items:stretch}
+  .btn-whatsapp,.btn-catalogo{justify-content:center}
+}
+@media(prefers-reduced-motion:reduce){
+  .fx-hero__visual,.social-float-btn.whatsapp,.fx-kicker::before{animation:none!important}
+  .fx-hero .phrase,.fx-frame .slide{transition:none!important}
+}
